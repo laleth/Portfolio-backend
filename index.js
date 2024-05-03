@@ -9,10 +9,18 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(cors());
 
+app.get('/',(req,res)=>{
+  res.send("Welcome to Portfolio backend")
+})
+
 // POST route to send email
 app.post('/send-email', (req, res) => {
   const { name, email, message } = req.body;
 
+  if (!name || !email || !message) {
+    return res.status(400).json({ error: "Name, email, and message are required." });
+  }
+  
   // Create a Nodemailer transporter
   let transporter = nodemailer.createTransport({
     service: 'gmail',
